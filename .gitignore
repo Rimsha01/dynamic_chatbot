@@ -1,4 +1,3 @@
 .env
-pgvector
+  api/__pycache__/
 env
-uploads

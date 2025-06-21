@@ -34,6 +34,7 @@ langchain==0.3.25
 langchain-community==0.3.25
 langchain-core==0.3.65
 langchain-huggingface==0.3.0
+langchain-ollama==0.3.3
 langchain-text-splitters==0.3.8
 langsmith==0.3.45
 markdown-it-py==3.0.0
@@ -59,6 +60,7 @@ nvidia-cusparselt-cu12==0.6.3
 nvidia-nccl-cu12==2.26.2
 nvidia-nvjitlink-cu12==12.6.85
 nvidia-nvtx-cu12==12.6.77
+ollama==0.5.1
 orjson==3.10.18
 packaging==24.2
 pgvector==0.4.1
