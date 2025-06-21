@@ -2,6 +2,7 @@ from fastapi import FastAPI, WebSocket
 from fastapi.middleware.cors import CORSMiddleware
 from .import models, upload
 from .database import  engine
+from .response import generate_response
 
 
 app = FastAPI()
@@ -19,17 +20,14 @@ app.add_middleware(
 app.include_router(upload.router)
 
 
-
-
 @app.websocket("/ws")
 async def websocket_endpoint(websocket:WebSocket):
      await websocket.accept()
      while True :
          try:
              user_msg = await websocket.receive_text()
-             bot_reply = get_bot_response(user_msg)
+             bot_reply = generate_response(user_msg)
              await websocket.send_text(bot_reply)
          except Exception as e:
              await websocket.close()
          break
-

@@ -6,12 +6,15 @@ from langchain_core.documents import Document
 from langchain_huggingface import HuggingFaceEmbeddings
 from pathlib import Path
 
+
 print("loading model")
 embeddings_model = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2",
     model_kwargs={'device': 'cpu'}
 )
 print("success")
+
+
 
 def validate_file_extension(filename: str):
     if not filename.lower().endswith((".csv", ".txt")):
@@ -37,7 +40,7 @@ def check_filename(filename:str = "uploads"):
     return safe_filename
 
 
-def chunk_text(content: str,chunk_size: int = 20,chunk_overlap:int = 5 )-> List[Document]:
+def chunk_text(content: str,chunk_size: int = 250,chunk_overlap:int = 75 )-> List[Document]:
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size= chunk_size,
         chunk_overlap=chunk_overlap
@@ -51,11 +54,10 @@ def generate_embeddings(texts:List[str]) -> List[List[float]]:
 def save_chunks(split_docs: List[Document], embeddings: List, file_id: int) -> List[models.DocumentChunk]:
     chunks = []
     for i, (doc, embedding) in enumerate(zip(split_docs, embeddings)):
-        if isinstance(embedding, list) and isinstance(embedding[0], list):
-            embedding = embedding[0]
-        # Convert numpy array to list if needed
-        if hasattr(embedding, 'tolist'):
-            embedding = embedding.tolist()
+        # Simple type assertion for safety
+        if not isinstance(embedding, list):
+            raise ValueError(f"Unexpected embedding type: {type(embedding)}")
+
         chunk = models.DocumentChunk(file_id=file_id,
                                      chunk_text=doc.page_content,
                                      embeddings=embedding,
@@ -64,4 +66,5 @@ def save_chunks(split_docs: List[Document], embeddings: List, file_id: int) -> L
         chunks.append(chunk)
 
     return chunks
+
 

@@ -4,11 +4,11 @@ from . import schemas, models,service, database
 from sqlalchemy.orm import Session
 
 router = APIRouter(
-    prefix = "/upload",
+    prefix = "/upload_data",
     tags= ["upload"]
 )
 
-@router.post("/upload_data")
+@router.post("/")
 async def add_data(data:UploadFile, request:schemas.UploadData= Depends(),db: Session = Depends(database.get_db)):
 
     #validate file
