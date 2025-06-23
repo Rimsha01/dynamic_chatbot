@@ -1,30 +1,33 @@
-from  typing import List
 from langchain_community.utils.math import cosine_similarity
 from . import models
 from langchain_ollama import OllamaLLM
 from .service import embeddings_model
+from sqlalchemy.orm import Session
+
 
 mistral_llm =OllamaLLM(model = "mistral")
 
 def generate_response(query:str,
-                      document_chunks : List[models.DocumentChunk],
-                      max_context_chunks :int = 5,
-                      similarity_threshold :float = 0.4
+                      db:Session,
+                      file_id :int
                       )-> str:
+    document_chunks = db.query(models.DocumentChunk).filter(models.DocumentChunk.file_id == file_id).all()
     query_embedding = embeddings_model.embed_query(query)
 
     relevant_chunks = []
     for chunk in document_chunks:
         chunk_embedding = chunk.embeddings
         similarity_score = cosine_similarity(chunk_embedding,query_embedding)
-        if similarity_score >= similarity_threshold:
+        if similarity_score >= 0.4:
             relevant_chunks.append(
                 {"chunk": chunk,
                  "similarity" :similarity_score}
             )
 
-    relevant_chunks.sort(key = lambda x: ["similarity_score"], reverse = True)
-    top_chunks = [c ["chunk"] for c in  relevant_chunks[:max_context_chunks]]
+    relevant_chunks.sort(key = lambda x: x["similarity"], reverse = True)
+    top_chunks = []
+    for chunk in relevant_chunks[:5]:
+        top_chunks.append(chunk)
 
     if not top_chunks:
        return "I could not find relevant information to answer your question"

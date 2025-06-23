@@ -13,7 +13,6 @@ class Chunk(BaseModel):
 
 class ChatMessage(BaseModel):
     id : int
-    desc: str
     query: str
     response: str
 

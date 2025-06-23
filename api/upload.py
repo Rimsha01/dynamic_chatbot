@@ -17,7 +17,7 @@ async def add_data(data:UploadFile, request:schemas.UploadData= Depends(),db: Se
     service.validate_file_size(raw_data)
 
     #file storage
-    upload_dir = service.create_upload_dir(data.filename)
+    upload_dir = service.create_upload_dir()
     safe_filename = service.check_filename(request.file_name)
     file_path = upload_dir / safe_filename
     if file_path.exists():
