@@ -2,7 +2,7 @@ from sqlalchemy import String, Integer, Column, ForeignKey, Boolean,DateTime
 from sqlalchemy.orm import relationship
 from pgvector.sqlalchemy import Vector
 from datetime import datetime
-from .database import Base
+from database import Base
 
 class UploadedFile(Base):
     __tablename__ = "uploaded_files"

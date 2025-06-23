@@ -1,0 +1,15 @@
+Service Name,Price (INR),Car Model,Duration (minutes)
+Oil Change,1200,Maruti Swift,30
+Oil Change,1500,Hyundai Creta,30
+Car Wash (Exterior),400,Honda City,20
+Car Wash (Exterior + Interior),700,Honda City,35
+Brake Inspection,800,Maruti Swift,25
+Battery Checkup,500,Hyundai i20,20
+Full Service,3000,Tata Nexon,90
+AC Gas Refill,1800,Hyundai Creta,40
+Wheel Alignment,600,Toyota Innova,30
+Tyre Rotation,400,Toyota Innova,25
+Engine Diagnostic,1500,Honda Civic,45
+Spark Plug Replacement,1000,Maruti Alto,35
+Car Detailing,3500,Hyundai Verna,120
+Headlight Restoration,600,Hyundai i20,30

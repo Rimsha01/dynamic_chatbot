@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from . import schemas
 from . database import get_db
 from sqlalchemy.orm import Session
@@ -11,6 +11,7 @@ router = APIRouter(
 )
 
 @router.post("/generate")
-async def generate(request:schemas.ChatMessage, db:Session = get_db ):
+async def generate(request:schemas.ChatMessage, db:Session = Depends(get_db) ):
     response =generate_response(request.query, db, request.file_id)
-    return {"response": response}
+    return {"query": request.query,
+        "response": response}

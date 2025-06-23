@@ -1,6 +1,5 @@
 from pydantic import BaseModel
 
-
 class UploadData(BaseModel):
     file_name: str
     file_type :str
@@ -12,7 +11,7 @@ class Chunk(BaseModel):
     chunk_text : str
 
 class ChatMessage(BaseModel):
-    id : int
+    file_id : int
     query: str
     response: str
 

@@ -1,22 +1,23 @@
 from langchain_community.utils.math import cosine_similarity
-from . import models
+import models
 from langchain_ollama import OllamaLLM
-from .service import embeddings_model
+from service import embeddings_model
 from sqlalchemy.orm import Session
+from database import SessionLocal
 
 
 mistral_llm =OllamaLLM(model = "mistral")
 
-def generate_response(query:str,
-                      db:Session,
-                      file_id :int
-                      )-> str:
+def generate_response(query:str,db:Session,file_id :int )-> str:
     document_chunks = db.query(models.DocumentChunk).filter(models.DocumentChunk.file_id == file_id).all()
     query_embedding = embeddings_model.embed_query(query)
 
     relevant_chunks = []
     for chunk in document_chunks:
-        chunk_embedding = chunk.embeddings
+        print(chunk)
+        chunk_embedding = chunk.embeddings.reshape(1,-1)
+        print(chunk_embedding)
+        print(chunk_embedding.shape())
         similarity_score = cosine_similarity(chunk_embedding,query_embedding)
         if similarity_score >= 0.4:
             relevant_chunks.append(
@@ -47,3 +48,5 @@ def generate_response(query:str,
     return response
 
 
+if __name__ == "__main__":
+    generate_response("hyundai creta oil change price",SessionLocal(),20)
