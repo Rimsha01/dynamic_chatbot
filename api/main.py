@@ -30,9 +30,11 @@ async def websocket_endpoint(websocket:WebSocket):
      try:
         while True :
             user_msg = await websocket.receive_text()
+            print("generating response")
             bot_reply = generate_response(user_msg,db,file_id)
             await websocket.send_text(bot_reply)
      except Exception as e:
-        await websocket.close()
+        #await websocket.close()
+        ...
      finally:
          db.close()

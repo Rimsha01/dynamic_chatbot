@@ -1,4 +1,6 @@
 from langchain_community.utils.math import cosine_similarity
+from langchain_core.runnables import RunnableConfig
+
 from . import models
 from langchain_ollama import OllamaLLM
 from . service import embeddings_model
@@ -26,7 +28,7 @@ def generate_response(query:str,db:Session,file_id :int )-> str:
 
 
     relevant_chunks.sort(key = lambda x: x["similarity"], reverse = True)
-    top_chunks= relevant_chunks[:5]
+    top_chunks= relevant_chunks[:3]
 
 
     if not top_chunks:
@@ -42,7 +44,7 @@ def generate_response(query:str,db:Session,file_id :int )-> str:
     Question: {query}
     Answer:"""
     #Generate response using the LLM
-    response = mistral_llm.invoke(prompt)
+    response = mistral_llm.invoke(prompt,config=RunnableConfig(max_concurrency=15))
 
     return response
 
