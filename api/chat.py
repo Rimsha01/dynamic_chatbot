@@ -11,7 +11,7 @@ router = APIRouter(
 )
 
 @router.post("/generate")
-async def generate(request:schemas.ChatMessage, db:Session = Depends(get_db) ):
-    response =generate_response(request.query, db, request.file_id)
+async def generate(request:schemas.ChatMessage = Depends(), db:Session = Depends(get_db) ):
+    response = generate_response(request.query, db, request.file_id)
     return {"query": request.query,
         "response": response}

@@ -1,10 +1,10 @@
+from typing import Optional
 from pydantic import BaseModel
 
 class UploadData(BaseModel):
     file_name: str
     file_type :str
     description : str
-
 
 class Chunk(BaseModel):
     file_id :int
@@ -13,6 +13,5 @@ class Chunk(BaseModel):
 class ChatMessage(BaseModel):
     file_id : int
     query: str
-    response: str
-
+    response : Optional[str] = None
 

@@ -2,7 +2,7 @@ from sqlalchemy import String, Integer, Column, ForeignKey, Boolean,DateTime
 from sqlalchemy.orm import relationship
 from pgvector.sqlalchemy import Vector
 from datetime import datetime
-from database import Base
+from . database import Base
 
 class UploadedFile(Base):
     __tablename__ = "uploaded_files"
@@ -42,6 +42,7 @@ class ChatMessage(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     conversation_id = Column(Integer, ForeignKey("conversations.id"))
+    file_id= Column(Integer, ForeignKey("uploaded_files"))
     content = Column(String)
     is_user_message = Column(Boolean, default=True)
     timestamp = Column(DateTime, default=datetime.now)
