@@ -38,11 +38,19 @@ def generate_response(query:str,db:Session,file_id :int )-> str:
     context = "\n\n".join([chunk["chunk"].chunk_text  for chunk in top_chunks])
 
     # Create prompt for the LLM
-    prompt = f"""You are a Dynamic Ai chatbot based on the provided context generate response.
+    prompt = f"""
+    You are a Dynamic AI chatbot for our cafe. Based on the context, generate an appropriate response to the user's query.
+
+    Instructions:
+    - If the user greets you (e.g., says "hi", "hello", or similar), greet them back, mention the name of our cafe i.e Kuku's Cafe, and say that you are a dynamic AI chatbot here to assist them.
+    - Otherwise, answer the user's question based on the context provided.
+
     Context:
     {context}
+
     Question: {query}
-    Answer:"""
+    Answer:
+    """
     #Generate response using the LLM
     response = mistral_llm.invoke(prompt,config=RunnableConfig(max_concurrency=15))
 
